@@ -1,0 +1,10 @@
+{
+  "name": "order-processor",
+  "version": "1.0.0",
+  "main": "index.js",
+  "dependencies": {
+    "@google-cloud/bigquery": "^7.9.4",
+    "@google-cloud/firestore": "^6.5.0",
+    "@google-cloud/pubsub": "^3.7.0"
+  }
+}

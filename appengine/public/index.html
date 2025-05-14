@@ -1,0 +1,359 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8">
+  <title>SmartStock Portal</title>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="style.css">
+</head>
+
+<body>
+  <header>SmartStock Portal</header>
+
+  <div class="button-group">
+    <button onclick="toggleCustomerForm()">👤 Add New Customer</button>
+    <button onclick="toggleOrderForm()">🛒 Place Order</button>
+    <button onclick="window.location.href='dashboard.html'">📊 View Dashboard</button>
+
+  </div>
+
+  <div class="order-form">
+
+    <!-- Add New Customer Section -->
+
+    <hr>
+    <p id="custMsg" style="font-weight: bold; color: green; margin-top: 10px;"></p>
+    <div id="new-customer-form">
+      <h2>Add New Customer</h2>
+      <label for="new-name">Name</label>
+      <input type="text" id="new-name" placeholder="Enter full name" required>
+      <label for="new-email">Email</label>
+      <input type="email" id="new-email" placeholder="Enter email address" required>
+      <label for="new-phone">Phone</label>
+      <input type="text" id="new-phone" placeholder="Enter phone number" required>
+      <label for="new-address1">Address Line 1</label>
+      <input type="text" id="new-address1" placeholder="Street address, P.O. box, company name, etc." required>
+      <label for="new-address2">Address Line 2</label>
+      <input type="text" id="new-address2" placeholder="Apartment, suite, unit, building, floor, etc.">
+      <label for="new-city">City</label>
+      <input type="text" id="new-city" placeholder="City name" required>
+      <label for="new-state">State</label>
+      <select id="new-state" required>
+        <option value="">Select a state</option>
+        <option value="AL">Alabama</option>
+        <option value="AK">Alaska</option>
+        <option value="AZ">Arizona</option>
+        <option value="AR">Arkansas</option>
+        <option value="CA">California</option>
+        <option value="CO">Colorado</option>
+        <option value="CT">Connecticut</option>
+        <option value="DE">Delaware</option>
+        <option value="FL">Florida</option>
+        <option value="GA">Georgia</option>
+        <option value="HI">Hawaii</option>
+        <option value="ID">Idaho</option>
+        <option value="IL">Illinois</option>
+        <option value="IN">Indiana</option>
+        <option value="IA">Iowa</option>
+        <option value="KS">Kansas</option>
+        <option value="KY">Kentucky</option>
+        <option value="LA">Louisiana</option>
+        <option value="ME">Maine</option>
+        <option value="MD">Maryland</option>
+        <option value="MA">Massachusetts</option>
+        <option value="MI">Michigan</option>
+        <option value="MN">Minnesota</option>
+        <option value="MS">Mississippi</option>
+        <option value="MO">Missouri</option>
+        <option value="MT">Montana</option>
+        <option value="NE">Nebraska</option>
+        <option value="NV">Nevada</option>
+        <option value="NH">New Hampshire</option>
+        <option value="NJ">New Jersey</option>
+        <option value="NM">New Mexico</option>
+        <option value="NY">New York</option>
+        <option value="NC">North Carolina</option>
+        <option value="ND">North Dakota</option>
+        <option value="OH">Ohio</option>
+        <option value="OK">Oklahoma</option>
+        <option value="OR">Oregon</option>
+        <option value="PA">Pennsylvania</option>
+        <option value="RI">Rhode Island</option>
+        <option value="SC">South Carolina</option>
+        <option value="SD">South Dakota</option>
+        <option value="TN">Tennessee</option>
+        <option value="TX">Texas</option>
+        <option value="UT">Utah</option>
+        <option value="VT">Vermont</option>
+        <option value="VA">Virginia</option>
+        <option value="WA">Washington</option>
+        <option value="WV">West Virginia</option>
+        <option value="WI">Wisconsin</option>
+        <option value="WY">Wyoming</option>
+      </select>
+      <label for="new-zip">ZIP Code</label>
+      <input type="text" id="new-zip" placeholder="e.g., 12345" required>
+
+      <button onclick="submitNewCustomer()">Create Customer</button>
+      <p id="custMsg"></p>
+      <hr>
+
+    </div>
+
+
+
+    <!--Order Section -->
+
+    <p id="custMsg" style="font-weight: bold; color: green; margin-top: 10px;"></p>
+    <div id="place-order-form">
+      <h2>Place Order</h2>
+      <label for="customer">Select Customer:</label>
+      <select id="customer">
+        <option value="">Loading...</option>
+      </select><br><br>
+
+      <label for="category">Select Category:</label>
+      <select id="category">
+        <option value="">Loading...</option>
+      </select><br><br>
+
+      <label for="product">Select Product:</label>
+      <select id="product">
+        <option value="">Select a category first</option>
+      </select><br><br>
+
+      <label for="quantity">Enter Quantity:</label>
+      <input type="number" id="quantity" min="1"><br><br>
+
+      <button onclick="addItem()">Add Item</button>
+
+      <h3>Selected Items</h3>
+      <table id="itemTable">
+        <thead>
+          <tr>
+            <th>Product Name</th>
+            <th>Product ID</th>
+            <th>Quantity</th>
+            <th>Action</th>
+          </tr>
+        </thead>
+        <tbody></tbody>
+      </table><br>
+
+      <button onclick="submitOrder()">Submit Final Order</button>
+      <p id="message"></p>
+    </div>
+
+
+    <div class="dashboard-button">
+
+
+    </div>
+
+
+  </div>
+
+
+  <script>
+    function toggleCustomerForm() {
+      const form = document.getElementById('new-customer-form');
+      form.style.display = form.style.display === 'none' ? 'block' : 'none';
+    }
+
+    function toggleOrderForm() {
+      const form = document.getElementById('place-order-form');
+      form.style.display = form.style.display === 'none' ? 'block' : 'none';
+    }
+  </script>
+
+  <script>
+    const productMap = new Map();
+    const items = [];
+
+    async function loadFormData() {
+      const res = await fetch('/order/form-data');
+      const { customers, categories } = await res.json();
+
+      const customerSelect = document.getElementById('customer');
+      customerSelect.innerHTML = '<option value="">-- Select Customer --</option>';
+      customers.forEach(c => {
+        const option = document.createElement('option');
+        option.value = c.customer_id;
+        option.textContent = c.name;
+        customerSelect.appendChild(option);
+      });
+
+      const categorySelect = document.getElementById('category');
+      categorySelect.innerHTML = '<option value="">-- Select Category --</option>';
+      categories.forEach(cat => {
+        const option = document.createElement('option');
+        option.value = cat;
+        option.textContent = cat;
+        categorySelect.appendChild(option);
+      });
+
+      categorySelect.addEventListener('change', async () => {
+        const category = categorySelect.value;
+        const res = await fetch(`/order/form-data?category=${encodeURIComponent(category)}`);
+        const { products } = await res.json();
+
+        const productSelect = document.getElementById('product');
+        productSelect.innerHTML = '<option value="">-- Select Product --</option>';
+        products.forEach(p => {
+          productMap.set(p.product_id, p.product_name);
+          const option = document.createElement('option');
+          option.value = p.product_id;
+          option.textContent = p.product_name;
+          productSelect.appendChild(option);
+        });
+      });
+    }
+
+    function addItem() {
+      const product_id = document.getElementById('product').value;
+      const quantity = parseInt(document.getElementById('quantity').value, 10);
+
+      if (!product_id || isNaN(quantity) || quantity < 1) {
+        alert('Please select a valid product and quantity.');
+        return;
+      }
+
+      const product_name = productMap.get(product_id);
+      items.push({ product_id, quantity });
+
+      const row = document.createElement('tr');
+      row.innerHTML = `
+        <td>${product_name}</td>
+        <td>${product_id}</td>
+        <td>${quantity}</td>
+        <td><button onclick="removeItem(this)">Remove</button></td>
+      `;
+      document.querySelector('#itemTable tbody').appendChild(row);
+    }
+
+    function removeItem(button) {
+      const row = button.closest('tr');
+      const index = row.rowIndex - 1;
+      items.splice(index, 1);
+      row.remove();
+    }
+
+    async function submitOrder() {
+      const customer_id = document.getElementById('customer').value;
+      const msg = document.getElementById('message');
+
+      if (!customer_id || items.length === 0) {
+        msg.textContent = 'Select a customer and add at least one item.';
+        return;
+      }
+
+      const res = await fetch('/order', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ customer_id, items })
+      });
+
+      if (res.ok) {
+        msg.textContent = 'Order submitted successfully!';
+        items.length = 0;
+        document.querySelector('#itemTable tbody').innerHTML = '';
+      } else {
+        const error = await res.json();
+        msg.textContent = `Error: ${error.error}`;
+      }
+    }
+
+    function toggleCustomerForm() {
+      const form = document.getElementById('new-customer-form');
+      form.style.display = form.style.display === 'none' ? 'block' : 'none';
+    }
+
+    async function submitNewCustomer() {
+  const name = document.getElementById('new-name').value;
+  const email = document.getElementById('new-email').value;
+  const phone = document.getElementById('new-phone').value;
+  const address1 = document.getElementById('new-address1').value;
+  const address2 = document.getElementById('new-address2').value;
+  const city = document.getElementById('new-city').value;
+  const state = document.getElementById('new-state').value;
+  const zip = document.getElementById('new-zip').value;
+  const custMsg = document.getElementById('custMsg');
+  const form = document.getElementById('new-customer-form');
+
+  if (!name || !email || !phone || !address1 || !city || !state || !zip) {
+    custMsg.textContent = 'Please fill out all required fields.';
+    custMsg.style.color = 'red';
+    return;
+  }
+
+  const fullAddress = `${address1}, ${address2}, ${city}, ${state} ${zip}`;
+
+  // 🛰️ Get coordinates via your backend
+  const geoRes = await fetch(`/map/geocode?address=${encodeURIComponent(fullAddress)}`);
+  const geoData = await geoRes.json();
+
+  if (!geoRes.ok || !geoData.latitude || !geoData.longitude) {
+    custMsg.textContent = `Unable to fetch coordinates: ${geoData.error || 'unknown error'}`;
+    custMsg.style.color = 'red';
+    return;
+  }
+
+  const customer = {
+    name,
+    email,
+    phone,
+    address: fullAddress,
+    location: {
+      latitude: geoData.latitude,
+      longitude: geoData.longitude
+    }
+  };
+
+  try {
+    const res = await fetch('/customers', {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify(customer)
+    });
+
+    const data = await res.json();
+
+    if (res.ok) {
+      custMsg.style.color = 'green';
+      custMsg.textContent = `Customer "${data.name}" created!`;
+
+      // Add to dropdown
+      const customerSelect = document.getElementById('customer');
+      const option = document.createElement('option');
+      option.value = data.customer_id;
+      option.textContent = data.name;
+      customerSelect.appendChild(option);
+      customerSelect.value = data.customer_id;
+
+      // Clear fields
+      ['new-name', 'new-email', 'new-phone', 'new-address1', 'new-address2', 'new-city', 'new-zip'].forEach(id => {
+        const el = document.getElementById(id);
+        if (el) el.value = '';
+      });
+      document.getElementById('new-state').selectedIndex = 0;
+
+      // Hide customer form, show order form
+      form.style.display = 'none';
+      document.getElementById('place-order-form').style.display = 'block';
+      document.getElementById('place-order-form').scrollIntoView({ behavior: 'smooth' });
+    } else {
+      custMsg.style.color = 'red';
+      custMsg.textContent = `Error: ${data.error}`;
+    }
+  } catch (err) {
+    console.error(err);
+    custMsg.textContent = 'An error occurred while creating the customer.';
+    custMsg.style.color = 'red';
+  }
+}
+    loadFormData();
+  </script>
+</body>
+
+</html>

@@ -1,0 +1,14 @@
+runtime: nodejs20 
+instance_class: F1
+entrypoint: node index.js
+env_variables:
+  SENDGRID_API_KEY: "SG.replace" # REPLACE
+  GOOGLE_MAPS_API_KEY: "replace" #REPLACE
+  GOOGLE_CLOUD_PROJECT: "replace" #REPLACE
+  HQ_LAT: "39.791000"
+  HQ_LNG: "-86.148003"
+
+
+handlers:
+  - url: /.*
+    script: auto

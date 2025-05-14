@@ -1,0 +1,214 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <title>SmartStock Dashboard</title>
+    <!-- Google Fonts -->
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600&display=swap" rel="stylesheet">
+    <!-- Shared styles -->
+    <link rel="stylesheet" href="style.css">
+    <!-- Chart.js -->
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+</head>
+
+<body>
+  
+    <div id="dashboard">
+        <header>SmartStock Customer Dashboard</header>
+
+        <div id="content">
+            <div id="sidebar">
+                <div class="widget">
+                    <h4>Active Customers</h4>
+                    <div class="value" id="active-count">–</div>
+                </div>
+
+                <div class="widget">
+                    <h4>Total Orders</h4>
+                    <div class="value" id="order-count">–</div>
+                </div>
+
+                <div class="widget">
+                    <h4>Avg. Orders per Customer</h4>
+                    <div class="value" id="avg-orders">–</div>
+                </div>
+
+                <div class="widget">
+                    <h4>Avg. Order Value</h4>
+                    <div class="value" id="avg-order-value">–</div>
+                </div>
+
+                <div class="widget">
+                    <h4>Total Sales</h4>
+                    <div class="value" id="total-order-value">–</div>
+                </div>
+
+                <div class="widget">
+                    <h4>Top 5 Customers by Spend</h4>
+                    <canvas id="top-spenders-chart" height="200"></canvas>
+                </div>
+            </div>
+
+
+            <div id="map"></div>
+        </div>
+        <div style="padding: 10px 20px; background: #f5f5f5; border-top: 1px solid #ccc;">
+            <button onclick="window.location.reload()">🔄 Refresh Dashboard</button>
+            <button onclick="window.location.href='index.html'">⬅️ Back to Portal</button>
+        </div>
+    </div>
+    <script>
+        async function loadGoogleMapsScript() {
+            try {
+                const res = await fetch('/map/apikey');
+                const { apiKey } = await res.json();
+
+                const script = document.createElement('script');
+                script.src = `https://maps.googleapis.com/maps/api/js?key=${apiKey}&callback=initMap&libraries=marker&loading=async`;
+                script.async = true;
+                script.defer = true;
+                document.head.appendChild(script);
+            } catch (err) {
+                console.error('Failed to load Google Maps:', err);
+            }
+        }
+
+        async function initMap() {
+            const res = await fetch('/map/locations');
+            const data = await res.json();
+
+            const center = data.length > 0 ? { lat: data[0].lat, lng: data[0].lng } : { lat: 0, lng: 0 };
+
+            const map = new google.maps.Map(document.getElementById('map'), {
+                zoom: 6,
+                center,
+                mapId: 'customers',
+                gestureHandling: 'greedy'
+            });
+
+            const infoWindow = new google.maps.InfoWindow();
+            const { AdvancedMarkerElement } = google.maps.marker;
+
+            data.forEach(loc => {
+                const isHQ = loc.type === 'hq';
+
+                const icon = document.createElement('div');
+                icon.style.width = '16px';
+                icon.style.height = '16px';
+                icon.style.borderRadius = '50%';
+                icon.style.backgroundColor = isHQ ? 'blue' : 'red';
+                icon.style.border = '2px solid white';
+                icon.style.boxShadow = '0 0 3px rgba(0,0,0,0.5)';
+                icon.title = loc.name;
+
+                const marker = new AdvancedMarkerElement({
+                    map,
+                    position: { lat: loc.lat, lng: loc.lng },
+                    title: loc.name,
+                    content: icon
+                });
+
+                marker.addEventListener('gmp-click', () => {
+                    infoWindow.setContent(`<b>${loc.name}</b><br>${isHQ ? 'Headquarters' : 'Customer'}`);
+                    infoWindow.open(map, marker);
+                });
+            });
+        }
+
+        async function loadCustomerMetrics() {
+            try {
+                const res = await fetch('/customers/active-count');
+                const { total } = await res.json();
+                document.getElementById('active-count').textContent = total;
+            } catch (err) {
+                console.error('Failed to load active customer count:', err);
+            }
+        }
+
+        async function loadOrderMetrics() {
+            try {
+                const res1 = await fetch('/customers/order-count');
+                const { count } = await res1.json();
+                document.getElementById('order-count').textContent = `${count} orders`;
+
+                const res2 = await fetch('/customers/average-orders');
+                const { avg } = await res2.json();
+                document.getElementById('avg-orders').textContent = `${avg} orders`;
+            } catch (err) {
+                console.error('Failed to load order metrics:', err);
+            }
+        }
+        async function loadAvgOrderValue() {
+            try {
+                const res = await fetch('/customers/average-order-value');
+                const { avgValue } = await res.json();
+                document.getElementById('avg-order-value').textContent = `$${avgValue}`;
+            } catch (err) {
+                console.error('Failed to load average order value:', err);
+            }
+        }
+        async function loadTotalOrderValue() {
+            try {
+                const res = await fetch('/customers/total-order-value');
+                const { totalValue } = await res.json();
+                document.getElementById('total-order-value').textContent = `$${totalValue}`;
+            } catch (err) {
+                console.error('Failed to load average order value:', err);
+            }
+        }
+        async function loadTopSpendersChart() {
+            try {
+                const res = await fetch('/customers/top-spenders');
+                const data = await res.json();
+
+                const ctx = document.getElementById('top-spenders-chart').getContext('2d');
+                new Chart(ctx, {
+                    type: 'bar',
+                    data: {
+                        labels: data.map(d => d.name),
+                        datasets: [{
+                            label: 'Total Spent ($)',
+                            data: data.map(d => d.total_spent),
+                            backgroundColor: '#0d47a1'
+                        }]
+                    },
+                    options: {
+                        responsive: true,
+                        plugins: {
+                            legend: { display: false },
+                            tooltip: {
+                                callbacks: {
+                                    label: ctx => `$${ctx.raw}`
+                                }
+                            }
+                        },
+                        scales: {
+                            y: {
+                                beginAtZero: true,
+                                ticks: { callback: v => `$${v}` }
+                            }
+                        }
+                    }
+                });
+            } catch (err) {
+                console.error('Failed to load top spenders chart:', err);
+            }
+        }
+
+
+
+        window.onload = () => {
+            loadGoogleMapsScript();
+            loadCustomerMetrics();
+            loadOrderMetrics();
+            loadAvgOrderValue();
+            loadTotalOrderValue();
+            loadTopSpendersChart();
+        };
+
+
+    </script>
+</body>
+
+</html>

@@ -1,0 +1,173 @@
+/* === Base styles === */
+body {
+  font-family: 'Inter', sans-serif;
+  background-color: #f8fafc;
+  color: #1f2937;
+  margin: 0;
+  padding: 0;
+}
+header {
+  background: #0d47a1;
+  color: white;
+  padding: 15px 20px;
+  font-size: 22px;
+  text-align: center;
+}
+
+/* === Order form only === */
+.order-form {
+  padding: 30px;
+  max-width: 800px;
+  margin: auto;
+}
+
+/* === Form components === */
+h2, h3 {
+  color: #111827;
+}
+
+label {
+  font-weight: 700;
+  display: block;
+  margin-top: 12px;
+  margin-bottom: 4px;
+}
+
+input[type="text"],
+input[type="email"],
+input[type="number"],
+select,
+textarea {
+  width: 100%;
+  padding: 10px;
+  margin-top: 5px;
+  margin-bottom: 12px;
+  border-radius: 6px;
+  border: 1px solid #d1d5db;
+  background: #fff;
+}
+
+
+button {
+  margin-top: 20px;
+  padding: 10px 20px;
+  font-weight: 600;
+  color: white;
+  background-color: #2563eb;
+  border: none;
+  border-radius: 6px;
+  cursor: pointer;
+  transition: background-color 0.3s ease;
+  text-align: center;
+}
+
+button:hover {
+  background-color: rgb(180, 189, 207);
+  color: #1d4ed8;
+ 
+}
+
+table {
+  width: 100%;
+  border-collapse: collapse;
+  margin-top: 20px;
+  background: white;
+}
+
+th, td {
+  padding: 12px;
+  border: 1px solid #e5e7eb;
+  text-align: left;
+}
+
+th {
+  background-color: #f3f4f6;
+}
+
+#message {
+  margin-top: 20px;
+  font-weight: 600;
+}
+
+.remove-btn {
+  background-color: #ef4444;
+}
+
+.remove-btn:hover {
+  background-color: #dc2626;
+}
+#new-customer-form,
+#place-order-form {
+  display: none;
+  margin-top: 20px;
+  animation: fadeIn 0.4s ease-in-out;
+}
+#place-order-form {
+  display: block; 
+}
+
+@keyframes fadeIn {
+  from { opacity: 0; transform: translateY(-10px); }
+  to { opacity: 1; transform: translateY(0); }
+}
+
+.button-group {
+  display: flex;
+  justify-content: center;
+  gap: 20px; /* space between buttons */
+  margin-top: 20px;
+  flex-wrap: wrap; /* allows wrapping on smaller screens */
+}
+
+
+.dashboard-button {
+  text-align: center;
+  margin-top: 20px;
+}
+
+button {
+  min-width: 220px; 
+  
+}
+/* === Dashboard-specific === */
+
+
+#dashboard #content {
+  display: flex;
+
+}
+
+#dashboard #sidebar {
+  width: 320px;
+  background: #f5f5f5;
+  padding: 20px;
+  overflow-y: auto;
+  border-right: 1px solid #ccc;
+  display: flex;
+  flex-direction: column;
+  gap: 15px;
+}
+
+#dashboard .widget {
+  background: white;
+  padding: 15px;
+  border-radius: 6px;
+  box-shadow: 0 1px 3px rgba(0, 0, 0, 0.1);
+  border-left: 4px solid #0d47a1;
+}
+
+#dashboard .widget h4 {
+  margin: 0 0 5px;
+  font-size: 16px;
+  color: #333;
+}
+
+#dashboard .widget .value {
+  font-size: 24px;
+  font-weight: bold;
+  color: #0d47a1;
+}
+
+#dashboard #map {
+  flex: 1;
+}

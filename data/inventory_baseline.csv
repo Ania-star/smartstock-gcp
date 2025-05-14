@@ -1,0 +1,122 @@
+﻿product_id,product_name,category,stock_quantity,reorder_level,reorder_quantity,unit_price,date_received,last_order_date,sales_volume,status
+29-205-1132,Sushi Rice,Grains & Pulses,22,72,70,$4.50 ,8/16/2024,6/29/2024,32,Active
+40-681-9981,Arabica Coffee,Beverages,45,77,2,$20.00 ,11/1/2024,5/29/2024,85,Active
+06-955-3428,Black Rice,Grains & Pulses,30,38,83,$6.00 ,8/3/2024,6/10/2024,31,Discontinued
+71-594-6552,Long Grain Rice,Grains & Pulses,12,59,62,$1.50 ,12/8/2024,2/19/2025,95,Active
+57-437-1828,Plum,Fruits & Vegetables,37,30,74,$4.00 ,7/3/2024,10/11/2024,62,Active
+21-120-6238,All-Purpose Flour,Grains & Pulses,55,33,14,$1.75 ,12/3/2024,5/26/2024,34,Active
+71-516-1996,Corn Oil,Oils & Fats,96,52,16,$2.50 ,3/18/2024,5/7/2024,67,Active
+39-629-5554,Egg (Goose),Dairy,44,90,17,$2.50 ,2/3/2025,4/9/2024,21,Active
+66-268-8345,Greek Yogurt,Dairy,91,84,11,$3.00 ,12/4/2024,6/2/2024,56,Active
+46-452-9419,Egg (Duck),Dairy,43,10,15,$1.00 ,11/18/2024,11/14/2024,27,Active
+42-220-9305,White Sugar,Grains & Pulses,91,98,6,$2.00 ,10/19/2024,12/11/2024,100,Active
+75-094-1179,Rye Bread,Bakery,26,79,31,$3.00 ,12/13/2024,2/9/2025,47,Active
+22-621-2774,Strawberries,Fruits & Vegetables,54,26,16,$6.00 ,3/11/2024,6/30/2024,63,Active
+39-449-0772,Feta Cheese,Dairy,94,13,15,$7.00 ,2/27/2024,4/2/2024,20,Active
+55-936-2406,Bread Flour,Grains & Pulses,27,93,88,$1.50 ,11/16/2024,3/9/2024,66,Active
+82-041-7211,Swiss Cheese,Dairy,49,49,26,$8.00 ,9/10/2024,5/19/2024,78,Active
+25-349-7974,Spinach,Fruits & Vegetables,72,70,99,$2.50 ,10/7/2024,5/28/2024,82,Active
+66-627-9752,Trout,Seafood,49,73,48,$12.00 ,8/17/2024,10/1/2024,52,Active
+78-614-4402,Green Beans,Fruits & Vegetables,81,99,28,$2.00 ,9/30/2024,2/14/2025,20,Active
+67-025-1245,Cabbage,Fruits & Vegetables,88,46,55,$1.00 ,4/9/2024,3/6/2024,73,Active
+68-418-6724,Parmesan Cheese,Dairy,63,4,85,$12.00 ,12/21/2024,1/13/2025,59,Active
+40-795-0753,Raw Sugar,Grains & Pulses,31,43,80,$1.50 ,5/28/2024,2/22/2025,46,Active
+02-508-3777,Egg (Quail),Dairy,97,88,81,$0.80 ,11/5/2024,7/7/2024,97,Active
+79-741-0770,Mushrooms,Fruits & Vegetables,72,87,39,$6.00 ,6/24/2024,2/24/2025,94,Active
+31-211-5803,Oatmeal Biscuit,Bakery,16,9,32,$5.00 ,7/16/2024,8/21/2024,50,Active
+16-499-5059,Pear,Fruits & Vegetables,77,20,5,$4.50 ,8/18/2024,11/19/2024,61,Active
+76-340-4432,Cucumber,Fruits & Vegetables,19,36,72,$1.75 ,5/3/2024,3/28/2024,31,Active
+38-732-7667,Pineapple,Fruits & Vegetables,18,52,22,$3.50 ,8/23/2024,10/13/2024,42,Active
+04-240-2226,Olive Oil,Oils & Fats,47,48,73,$6.00 ,8/13/2024,6/28/2024,42,Active
+79-136-9840,Herbal Tea,Beverages,77,45,75,$30.00 ,11/5/2024,8/19/2024,25,Active
+73-401-5721,Haddock,Seafood,46,28,73,$9.00 ,5/28/2024,10/28/2024,65,Active
+91-848-0606,Onion,Fruits & Vegetables,39,22,73,$2.00 ,6/11/2024,7/23/2024,60,Active
+26-161-6692,Zucchini,Fruits & Vegetables,61,90,26,$2.50 ,12/22/2024,9/7/2024,79,Active
+43-893-5408,Short Grain Rice,Grains & Pulses,60,90,85,$3.00 ,1/21/2025,3/20/2024,47,Active
+11-316-8405,Mango,Fruits & Vegetables,24,55,51,$5.00 ,4/26/2024,2/24/2025,39,Active
+34-086-3222,Lemon,Fruits & Vegetables,12,7,48,$2.30 ,6/24/2024,12/25/2024,66,Active
+21-816-1004,Black Coffee,Beverages,84,13,88,$15.00 ,1/26/2025,12/4/2024,25,Active
+43-693-2092,Butter,Dairy,51,100,70,$3.00 ,4/30/2024,10/21/2024,40,Active
+63-270-7076,Multigrain Bread,Bakery,65,36,37,$3.50 ,4/21/2024,6/12/2024,32,Active
+52-481-5224,Kiwi,Fruits & Vegetables,45,24,61,$6.00 ,1/21/2025,2/7/2025,44,Active
+70-854-6891,Sourdough Bread,Bakery,41,84,90,$4.00 ,1/28/2025,11/28/2024,42,Active
+91-105-7317,Orange,Fruits & Vegetables,85,45,71,$3.00 ,3/20/2024,12/28/2024,95,Active
+02-920-4829,White Bread,Bakery,92,87,84,$2.50 ,10/19/2024,6/14/2024,61,Active
+36-918-2937,Green Coffee,Beverages,62,89,18,$12.00 ,3/12/2024,2/12/2025,35,Active
+41-729-5410,Sardines,Seafood,91,59,49,$6.00 ,10/23/2024,4/5/2024,30,Active
+11-581-9869,Carrot,Fruits & Vegetables,51,60,98,$1.50 ,5/1/2024,12/12/2024,44,Active
+78-237-0277,Black Tea,Beverages,46,27,76,$5.00 ,9/15/2024,9/23/2024,64,Active
+55-697-5242,Ricotta Cheese,Dairy,51,53,88,$6.00 ,1/31/2025,6/30/2024,54,Active
+20-225-3930,White Tea,Beverages,99,87,10,$25.00 ,12/8/2024,2/29/2024,93,Active
+87-762-1317,Mozzarella Cheese,Dairy,45,63,75,$7.00 ,1/28/2025,11/20/2024,83,Active
+81-844-2979,Broccoli,Fruits & Vegetables,73,87,46,$4.00 ,9/24/2024,1/15/2025,47,Active
+44-408-7594,Eggplant,Fruits & Vegetables,39,21,5,$3.00 ,11/24/2024,5/1/2024,51,Active
+65-464-5070,Heavy Cream,Dairy,12,60,73,$4.00 ,2/3/2025,3/16/2024,20,Active
+07-970-9352,Bell Pepper,Fruits & Vegetables,96,33,72,$4.45 ,3/10/2024,5/16/2024,74,Active
+39-232-5341,Arborio Rice,Grains & Pulses,20,34,74,$4.50 ,9/21/2024,10/24/2024,50,Active
+12-239-9399,Potato,Fruits & Vegetables,28,40,27,$1.20 ,12/14/2024,7/29/2024,30,Active
+70-815-4015,Butter Biscuit,Bakery,38,93,61,$6.00 ,12/10/2024,7/15/2024,67,Active
+11-032-9778,Peas,Fruits & Vegetables,99,1,4,$3.00 ,12/13/2024,1/27/2025,50,Active
+54-374-9986,Cream,Dairy,92,52,80,$2.50 ,6/3/2024,10/22/2024,72,Active
+06-611-5454,Peanut Oil,Oils & Fats,64,21,13,$4.00 ,1/30/2025,10/11/2024,51,Active
+89-543-3456,Blueberries,Fruits & Vegetables,66,40,96,$10.00 ,2/28/2024,6/22/2024,24,Active
+82-395-5070,Chocolate Biscuit,Bakery,75,81,17,$5.00 ,7/9/2024,2/17/2025,69,Active
+14-305-5348,Cheese,Dairy,53,63,2,$9.00 ,8/2/2024,10/12/2024,56,Active
+82-243-3180,Palm Oil,Oils & Fats,43,63,80,$1.80 ,6/23/2024,7/31/2024,33,Active
+13-202-4809,Garlic,Fruits & Vegetables,27,22,89,$7.00 ,5/1/2024,7/28/2024,91,Active
+67-270-7464,Jasmine Rice,Grains & Pulses,91,73,77,$4.75 ,2/1/2025,8/24/2024,51,Active
+11-733-1756,Rice Flour,Grains & Pulses,52,81,53,$2.00 ,8/28/2024,11/27/2024,95,Active
+49-891-4927,Cottage Cheese,Dairy,37,5,1,$5.00 ,1/2/2025,2/26/2024,68,Active
+55-522-8242,Whipped Cream,Dairy,29,36,40,$4.00 ,11/8/2024,3/30/2024,60,Active
+62-509-0666,Almond Flour,Grains & Pulses,13,88,7,$9.50 ,7/28/2024,5/15/2024,24,Active
+35-835-5591,Tilapia,Seafood,95,63,73,$7.00 ,11/17/2024,6/5/2024,61,Active
+26-690-3784,Lettuce,Fruits & Vegetables,58,5,1,$2.00 ,10/2/2024,10/14/2024,53,Active
+50-364-5828,Coconut,Fruits & Vegetables,89,57,92,$5.00 ,8/15/2024,6/14/2024,38,Active
+61-827-4098,Cod,Seafood,23,42,87,$8.00 ,2/1/2025,7/15/2024,63,Active
+87-698-0944,Banana,Fruits & Vegetables,56,12,59,$98.43 ,9/17/2024,8/27/2024,35,Active
+98-556-5323,Pomegranate,Fruits & Vegetables,60,61,2,$6.00 ,5/13/2024,8/12/2024,96,Active
+19-047-4239,Peach,Fruits & Vegetables,47,72,73,$4.00 ,5/21/2024,3/30/2024,93,Active
+29-896-7926,White Rice,Grains & Pulses,20,20,56,$1.80 ,1/6/2025,6/1/2024,62,Active
+54-822-9009,Cauliflower,Grains & Pulses,40,38,32,$3.20 ,10/25/2024,6/8/2024,21,Active
+84-075-7647,Canola Oil,Oils & Fats,91,82,58,$2.30 ,4/27/2024,10/21/2024,43,Active
+88-602-8210,Avocado Oil,Oils & Fats,99,96,39,$10.00 ,6/22/2024,6/19/2024,94,Active
+57-613-5779,Gouda Cheese,Dairy,100,21,64,$7.00 ,6/19/2024,3/11/2024,20,Active
+87-791-5803,Tuna,Seafood,25,44,96,$18.00 ,7/4/2024,3/9/2024,36,Active
+14-521-4167,Buttermilk,Dairy,47,2,76,$2.50 ,5/13/2024,6/29/2024,48,Active
+51-459-5630,Sour Cream,Dairy,11,30,4,$4.00 ,8/2/2024,9/29/2024,84,Active
+74-845-3299,Green Tea,Beverages,63,92,26,$8.00 ,8/18/2024,2/12/2025,93,Active
+23-070-2433,Powdered Sugar,Grains & Pulses,68,7,37,$2.50 ,8/8/2024,4/11/2024,69,Active
+26-031-8070,Vegetable Oil,Oils & Fats,57,99,23,$2.00 ,7/25/2024,5/25/2024,89,Active
+53-680-5293,Cheddar Cheese,Dairy,88,74,97,$9.00 ,5/28/2024,5/31/2024,79,Active
+24-364-3341,Egg (Turkey),Dairy,44,84,63,$2.50 ,7/29/2024,4/11/2024,51,Active
+76-325-9093,Sesame Oil,Oils & Fats,27,92,56,$6.50 ,4/18/2024,10/19/2024,29,Active
+98-235-2711,Asparagus,Fruits & Vegetables,22,40,7,$5.00 ,9/12/2024,12/31/2024,98,Active
+31-746-4951,Whole Wheat Flour,Grains & Pulses,67,60,21,$2.75 ,4/3/2024,5/20/2024,30,Active
+87-097-5691,Robusta Coffee,Beverages,62,78,97,$10.00 ,4/8/2024,8/29/2024,62,Active
+34-075-0371,Watermelon,Fruits & Vegetables,75,10,68,$3.00 ,9/11/2024,1/10/2025,90,Active
+47-578-4161,Anchovies,Seafood,88,56,81,$10.00 ,5/10/2024,3/10/2024,98,Active
+10-255-8579,Basmati Rice,Grains & Pulses,56,53,77,$4.50 ,7/12/2024,7/24/2024,69,Active
+01-439-6231,Sunflower Oil,Oils & Fats,88,100,17,$2.50 ,12/11/2024,10/28/2024,25,Active
+51-462-0747,Lime,Fruits & Vegetables,21,30,32,$2.00 ,1/22/2025,2/7/2025,43,Active
+16-354-8122,Digestive Biscuit,Bakery,97,99,96,$4.00 ,4/25/2024,1/22/2025,57,Active
+49-526-7806,Kale,Fruits & Vegetables,77,52,28,$4.00 ,12/19/2024,11/19/2024,48,Active
+56-810-0550,Mackerel,Seafood,71,7,6,$7.50 ,8/29/2024,12/2/2024,52,Active
+00-963-2193,Milk,Dairy,43,88,33,$1.00 ,7/19/2024,2/3/2025,84,Active
+68-977-2498,Grapes,Fruits & Vegetables,88,99,41,$5.50 ,7/30/2024,5/20/2024,93,Active
+30-591-7275,Brown Rice,Grains & Pulses,17,88,41,$2.50 ,10/21/2024,2/19/2025,45,Active
+00-119-8780,Halibut,Seafood,40,81,78,$20.00 ,2/17/2025,7/16/2024,39,Active
+16-380-0753,Apricot,Fruits & Vegetables,38,22,71,$5.00 ,10/7/2024,5/16/2024,33,Active
+59-857-6577,Evaporated Milk,Dairy,23,100,77,$2.00 ,5/10/2024,8/10/2024,63,Active
+87-199-2743,Papaya,Fruits & Vegetables,59,74,100,$4.50 ,3/26/2024,9/15/2024,63,Active
+69-674-5387,Yogurt,Dairy,59,27,63,$1.75 ,6/15/2024,6/27/2024,92,Active
+00-405-7428,Apple,Fruits & Vegetables,81,74,45,$3.50 ,1/20/2025,1/27/2025,42,Active
+04-277-5245,Coconut Sugar,Grains & Pulses,20,51,21,$5.00 ,3/19/2024,7/28/2024,71,Active
+04-453-5485,Tomato,Fruits & Vegetables,84,20,58,$2.50 ,4/8/2024,1/10/2025,86,Active
+82-342-7339,Vanilla Biscuit,Bakery,80,61,23,$5.50 ,7/27/2024,7/31/2024,63,Active
+89-181-4523,Wild Rice,Grains & Pulses,46,6,64,$10.00 ,7/23/2024,6/23/2024,63,Active
+71-631-5875,Salmon,Seafood,88,83,42,$15.00 ,5/29/2024,9/9/2024,61,Active
+13-980-8804,Sweet Potato,Fruits & Vegetables,100,3,32,$2.00 ,8/19/2024,10/1/2024,98,Active
+35-299-0889,Coconut Oil,Oils & Fats,33,78,79,$5.00 ,11/5/2024,7/11/2024,60,Active
+88-183-5781,Whole Wheat Bread,Bakery,17,63,3,$3.50 ,8/2/2024,8/24/2024,93,Active
+11-053-0107,Cherry,Fruits & Vegetables,30,25,11,$8.00 ,12/25/2024,7/12/2024,42,Active
+95-449-1286,Egg (Chicken),Dairy,10,17,70,$0.20 ,12/29/2024,12/23/2024,100,Active
