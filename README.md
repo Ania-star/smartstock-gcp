@@ -204,7 +204,7 @@ When the dashboard loads, the App Engine frontend (`dashboard.html`) initializes
 # .env (DO NOT COMMIT)
 SENDGRID_API_KEY=your_key
 GOOGLE_APPLICATION_CREDENTIALS=./keys/your-key.json
-MAPS_API_KEY=your_google_maps_key
+GOOGLE_MAPS_API_KEY=your_google_maps_key
 HQ_LAT=xx.xxxx
 HQ_LNG=xx.xxxx
 ```
@@ -245,14 +245,23 @@ gcloud functions deploy restockHandler \
 ---
 
 ## Project Status
+We completed all MVP requirements for the course, successfully implementing core SmartStock functionality.
+However, there are several additional enhancements possible to expand this platform into a more comprehensive, production-ready system.
 
+### Completed (MVP Features):
 - [x] Order placement flow
 - [x] New customer creation with geocoding
 - [x] BigQuery inventory updates
 - [x] Restock alerts logged
-- [x] Email notification
-- [x] Admin dashboard 
-- [ ] Customer self-service portal (future)
+- [x] Email notification (SendGrid)
+- [x] Key metrics and analytics dashboard
+
+### Possivle Enhancements (Next Phase):
+- [ ] Customer self-service ordering portal
+- [ ] Automated restocking integration
+- [ ] Enhanced dashboards (Sales & Inventory)
+- [ ] Supplier management module
+- [ ] Access control & security layer
 
 ---
 
@@ -267,11 +276,11 @@ gcloud functions deploy restockHandler \
 
 - Mehul Thawre – Frontend (App Engine & UI/API Layer)
 - Glen Roger Allman – Middleware / Integration Logic (Cloud Functions + Pub/Sub)
-- Anna Bajszczak – Backend / Data & Infrastructure
+- Anna Bajszczak – Architecture / Backend / Data & Infrastructure
   
 ---
 ## License
 
-This project was developed as part of the **Data-Driven Cloud Applications** course at Purdue University.  
+This project was developed as part of the **Data-Driven Cloud Applications** course at Purdue University, thought by William Remeika.  
 It is intended for educational use and demonstration purposes only.  
 All rights reserved.
