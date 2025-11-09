@@ -347,7 +347,7 @@ gcloud functions deploy restockHandler \
   --trigger-topic=restock-topic \
   --source=. \
   --region=us-central1 \
-  --set-env-vars GOOGLE_CLOUD_PROJECT=<your-project-name>,SENDGRID_API_KEY=<paste-your-sendgrid-api-key-here>
+  --set-env-vars GOOGLE_CLOUD_PROJECT=<your_project_id>,SENDGRID_API_KEY=<your_sendgrid_api_key>,ALERT_EMAIL_TO=<recipient_email>,ALERT_EMAIL_FROM=<verified_sendgrid_sender_email>
 ```
 
 ---
