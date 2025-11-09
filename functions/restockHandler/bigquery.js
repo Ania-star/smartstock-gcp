@@ -3,7 +3,7 @@ console.log("bigquery.js loaded");
 // restockHandler/bigquery.js
 const { BigQuery } = require('@google-cloud/bigquery');
 
-const bigquery = new BigQuery({ projectId: 'sp25-50100-teamgold' });
+const bigquery = new BigQuery({ projectId: process.env.GOOGLE_CLOUD_PROJECT });
 
 async function getReorderDetails(product_id) {
   const query = `
