@@ -18,6 +18,8 @@ The MVP supports order processing, inventory updates, restock alerts, and a live
 - [Tech Stack](#tech-stack)
 - [Project Structure](#project-structure)
 - [Architecture Overview](#architecture-overview)
+- [Databases Setup & Schema](#databases)
+- [App Engine Configuration](#app-engine-configuration)
 - [Dependencies](#dependencies)
 - [Deployment Guide](#deployment-guide)
 - [Project Status](#project-status)
@@ -169,13 +171,15 @@ The address is sent to the Google Maps Geocoding API to obtain latitude/longitud
 The complete customer record (details + coordinates) is stored in `customers` collection (Firestore) for future orders and dashboard visualization.
 
 -----
-## Database Setup
+## Databases
+
+### Database Setup
 SmartStock uses both **BigQuery** and **Firestore** to manage operational and analytical data.  
 The data model supports event-driven updates, real-time analytics, and dashboard visualization.
 
 > **Note:** Before deployment, ensure BigQuery is initialized properly. Firestore will be created and populated automatically when the first customer/order events occur.
 
-### BigQuery
+#### BigQuery
 SmartStock uses a BigQuery dataset (`finalproject`) for structured analytical data. BigQuery tables must be created **before deployment** so Cloud Functions can read and update them.  
 
 For this project, the tables were created manually in the Google Cloud Console under the **`finalproject`** dataset, which includes:  
@@ -186,7 +190,7 @@ The `inventory_baseline` table was loaded during creation using the initial CSV 
 
 > **Note:** This setup can also be automated through a deployment or initialization script if needed in future versions.
 
-### Firestore
+#### Firestore
 SmartStock uses a Firestore database (`smartstock-db`) for real-time event-driven data. The Firestore database **`smartstock-db`**  collections don't have to be created before deployment. 
 
 Collections are created automatically when data is first written to Firestore:  
@@ -195,13 +199,13 @@ Collections are created automatically when data is first written to Firestore:
 
 For this project, the initial customer data was loaded using the `data/importFirestore.js` script.  
 
-## Database Schema
+### Database Schema
 
 The following tables and collections define the SmartStock data model, supporting event-driven updates, real-time analytics, and dashboard visualization.
 
-### **BigQuery Dataset: `finalproject`**
+#### **BigQuery Dataset: `finalproject`**
 
-#### `inventory_baseline`
+##### `inventory_baseline`
 Stores all product and stock information.
 
 | Field Name | Data Type | Mode | Description |
@@ -218,7 +222,7 @@ Stores all product and stock information.
 | `sales_volume` | INTEGER | NULLABLE | Total units sold. |
 | `status` | STRING | REQUIRED | Product status (`Active`, `Discontinued`, `Backordered`). |
 
-#### `order_history`
+##### `order_history`
 Stores customer orders processed through App Engine and Cloud Functions.
 
 | Field Name | Data Type | Mode | Default Value | Description |
@@ -235,9 +239,9 @@ Stores customer orders processed through App Engine and Cloud Functions.
 
 ---
 
-### **Firestore Database: `smartstock-db`**
+#### **Firestore Database: `smartstock-db`**
 
-#### Collection: `customers` 
+##### Collection: `customers` 
 | Field Name | Data Type | Required | Description |
 |-------------|------------|-----------|--------------|
 | `customer_id` | STRING | Yes | Unique customer identifier. |
@@ -249,7 +253,7 @@ Stores customer orders processed through App Engine and Cloud Functions.
 | `registered_date` | TIMESTAMP | Yes | Date added to the system. |
 | `status` | STRING | Optional | `Active` or `Inactive`. |
 
-#### Collection: `restock_log` 
+##### Collection: `restock_log` 
 | Field Name | Data Type | Required | Description |
 |-------------|------------|-----------|--------------|
 | `product_id` | STRING | Yes | Product ID from inventory. |
