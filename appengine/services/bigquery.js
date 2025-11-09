@@ -105,7 +105,8 @@ async function updateInventory(product_id, quantityOrdered) {
   `;
   const [job] = await bigquery.createQueryJob({
     query,
-    params: { product_id, quantityOrdered }
+    params: { product_id, quantityOrdered },
+    location: 'us-central1'
   });
   await job.getQueryResults();
 }
