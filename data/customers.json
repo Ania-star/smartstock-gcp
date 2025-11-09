@@ -1,6 +1,5 @@
 [
   {
-    "customer_id": "cust_0001",
     "name": "Emily Carter",
     "email": "emily.carter@example.com",
     "phone": "+1-317-555-1201",
@@ -10,7 +9,6 @@
     "status": "Active"
   },
   {
-    "customer_id": "cust_0002",
     "name": "Michael Nguyen",
     "email": "michael.nguyen@example.com",
     "phone": "+1-765-555-5678",
@@ -20,7 +18,6 @@
     "status": "Active"
   },
   {
-    "customer_id": "cust_0003",
     "name": "Sophia Patel",
     "email": "sophia.patel@example.com",
     "phone": "+1-574-555-9832",
@@ -30,7 +27,6 @@
     "status": "Active"
   },
   {
-    "customer_id": "cust_0004",
     "name": "Jacob Wilson",
     "email": "jacob.wilson@example.com",
     "phone": "+1-812-555-7834",
@@ -40,7 +36,6 @@
     "status": "Active"
   },
   {
-    "customer_id": "cust_0005",
     "name": "Olivia Martinez",
     "email": "olivia.martinez@example.com",
     "phone": "+1-219-555-5567",
@@ -50,7 +45,6 @@
     "status": "Active"
   },
   {
-    "customer_id": "cust_0006",
     "name": "Noah Adams",
     "email": "noah.adams@example.com",
     "phone": "+1-812-555-0089",
@@ -60,7 +54,6 @@
     "status": "Active"
   },
   {
-    "customer_id": "cust_0007",
     "name": "Ava Robinson",
     "email": "ava.robinson@example.com",
     "phone": "+1-765-555-3344",
@@ -70,7 +63,6 @@
     "status": "Active"
   },
   {
-    "customer_id": "cust_0008",
     "name": "Liam Turner",
     "email": "liam.turner@example.com",
     "phone": "+1-260-555-2100",
@@ -80,7 +72,6 @@
     "status": "Active"
   },
   {
-    "customer_id": "cust_0009",
     "name": "Isabella Clark",
     "email": "isabella.clark@example.com",
     "phone": "+1-317-555-7321",
@@ -90,7 +81,6 @@
     "status": "Active"
   },
   {
-    "customer_id": "cust_0010",
     "name": "Ethan Brooks",
     "email": "ethan.brooks@example.com",
     "phone": "+1-574-555-1023",
@@ -100,3 +90,4 @@
     "status": "Active"
   }
 ]
+
