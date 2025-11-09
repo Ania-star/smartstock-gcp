@@ -20,7 +20,8 @@ async function importToFirestore() {
   customers.forEach((customer) => {
     // Firestore will auto-generate a unique document ID
     const docRef = collection.doc();
-    batch.set(docRef, customer);
+    const customerWithId = { ...customer, customer_id: docRef.id };
+    batch.set(docRef, customerWithId);
   });
 
   await batch.commit();
