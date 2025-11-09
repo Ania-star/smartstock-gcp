@@ -343,8 +343,7 @@ gcloud functions deploy restockHandler \
   --trigger-topic=restock-topic \
   --source=. \
   --region=us-central1 \
-  --set-env-vars GOOGLE_CLOUD_PROJECT=group-project-team-gold \
-  --set-env-vars SENDGRID_API_KEY=<paste-your-sendgrid-api-key-here>
+  --set-env-vars GOOGLE_CLOUD_PROJECT=<your-project-name>,SENDGRID_API_KEY=<paste-your-sendgrid-api-key-here>
 ```
 
 ---
