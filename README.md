@@ -22,7 +22,7 @@ The MVP supports order processing, inventory updates, restock alerts, and a live
 - [Deployment Guide](#deployment-guide)
 - [Project Status](#project-status)
 - [Notes](#notes)
-- [Contributors](#Contributors)
+- [Contributors](#contributors)
 - [License](#license)
 
 ---
@@ -36,7 +36,7 @@ The MVP supports order processing, inventory updates, restock alerts, and a live
 - Low stock? Another Cloud Function is triggered to log restock in **Firestore**
 - Low-stock email notifications sent using **SendGrid**
 - **Dashboard** (part of the internal UI):
-  - Sales and order insights (**BigQuery + Chart.js**)
+  - Sales and order insights (**BigQuery + Firestore + Chart.js**)
   - Map view of customers and warehouse locations (**Firestore + Google Maps**)
   - Top customer analytics (**BigQuery**)
 
@@ -67,108 +67,208 @@ finalproject/
 │   ├── public/              # Static HTML form + CSS
 │   ├── routes/              # Route handlers (/order, /customers, /map)
 │   ├── services/            # BigQuery + Firestore helper functions
-│   └── app.yaml             # App Engine config
+│   └── app.yaml             # App Engine deployment config
 │
 ├── functions/
-│   ├── orderProcessor/      # Processes orders, updates stock
-│   └── restockHandler/      # Evaluates stock thresholds & triggers alerts
+│   ├── orderProcessor/      # Cloud Function: processes orders, updates stock
+│   └── restockHandler/      # Cloud Function: evaluates stock thresholds & triggers alerts
 │
 ├── shared/                  # (Optional) Shared constants and utils
-│   └── constants.js         # Pub/Sub topics, thresholds
+│   └── constants.js         # Pub/Sub topics, SKU thresholds, etc.
 │
-├── keys/                    # .env and service account keys (not committed)
+├── keys/                    # Service account keys (excluded from repo)
+│   
+├── data/                    # Sample customers JSON + import script, and inventory baseline CSV
 │
-├── data/                    # Preloaded customers and inventory setup
+├── Images/                  # Architecture and workflow diagrams
 │
-├── Images/                  # Architecture diagrams
+├── .env                     # Environment config (API keys, HQ_LAT, HQ_LNG, )
 │
-├── README.md                 # Project documentation
-└── .gitignore                # Ignore keys/ and .env files
+├── README.md                # Project documentation
+└── .gitignore               # Ignore keys/, .env, and other sensitive files
+
 ```
 
 ---
 ## Architecture Overview
 
-The SmartStock platform consists of two main subsystems:
+SmartStock uses a serverless, event-driven architecture on Google Cloud Platform (GCP).  
+It automates order processing, stock updates, restock alerts, and real-time analytics by integrating App Engine, Pub/Sub, Cloud Functions, BigQuery, Firestore, SendGrid, and Google Maps APIs.  
+The unified diagram below shows the end-to-end workflow—from order placement to live dashboards.
 
-- **A. Inventory Management**: Handles ordering, stock updates, and restocking via Pub/Sub and Cloud Functions.
-- **B. Dashboard & Analytics**: Displays live customer activity, sales metrics, and mapping using Firestore and BigQuery.
-  
-Each subsystem is documented below with its architecture diagram and workflow.
+![Architecture diagram of SmartStock event-driven inventory system](images/e2e_workflow_architecture.png)
 
----
-### A. SmartStock Inventory Management (Ordering & Stock Updates)
 
-![Architecture diagram of SmartStock event-driven inventory system](images/architecture.png)
+### System Workflow (1–9)
 
-#### How It Works 
+#### 1. Placed Order
+A store staff member uses the App Engine web UI to place an order.  
+The form loads customer data from Firestore and product data from BigQuery. If a customer is missing, the user can add one (see A–C).
 
-**0. Preloading initial data**
-   - 0a. Customer profiles preloaded into Firestore using JSON file
-   - 0b. Inventory data uploaded into BigQuery using CSV file.
+#### 2. Receive Order Event
+On submission, the order is published to a Pub/Sub topic (`order-topic`).  
+This decouples the UI from backend processing and enables asynchronous handling.
 
-**1. Store staff accesses the App Engine frontend, which loads:**
-   - Customers pulled from Firestore
-   - Categories & products pulled from BigQuery
-   - Option to **Add New Customer** if not found in dropdown
+#### 3. Order Received
+A Cloud Function (`orderProcessor`) processes the message:
+- Validates product existence and stock availability.
+- Updates inventory quantities in `inventory_baseline` table (BigQuery).
+- Logs the order to an `order_history` table (BigQuery).
+- If stock drops below a threshold, publishes a restock event.
 
-**2. User adds a new customer (if not found)**
-   - 2a. The system temporarily holds the entered information and sends the address to the **Google Maps Geocoding API**
-   - 2b. The full customer record (with coordinates) is stored in Firestore
+#### 4. finalproject DB Table Updates
+BigQuery stores and updates:
+- `inventory_baseline` table with current stock levels.
+- `order_history` table with product, customer, quantity, and timestamp.
 
-**3. User submits the order**
-   - Order includes `user_id`, `product_id`, and quantity
-   - App Engine sends it to `order-topic` via Pub/Sub
+#### 5. Restock Event
+If an item falls below threshold, a Pub/Sub message is published to a `restock-topic` to drive restock handling.
 
-**4. Cloud Function: orderProcessor (Triggered by `order-topic`)**
-   
-**5. Validates Product Availability / Updates stock quantity in BigQuery**
-   - Validates product availability using BigQuery (Inventory)
-   - Decreases inventory count for ordered product
-  
-**6. Logs order in BigQuery**
-   - Writes to `order_history` table
+#### 6. Restock Processing
+A Cloud Function (`restockHandler`) consumes the restock event and:
+- Logs a restock alert in `restock_log` collection (Firestore).
+- Sends a low-stock notification via SendGrid.
 
-**7. Publishes to `restock-topic` if stock is below threshold**
+#### 7. Notification Service
+SendGrid delivers the email alert with product details.
 
-**8. Cloud Function: restockHandler (Triggered by `restock-topic`)**
-   - Checks threshold and prepares alert
+#### 8. restock_log Collection
+Firestore keeps a permanent record of restock alerts and events for audit and trend analysis.
 
-**9. Logs restock alert in Firestore**
-   - Writes to `restock_log` collection
+#### 9. Dashboard
+When the dashboard loads, the App Engine frontend (dashboard.html) initializes three parallel processes:
+##### 9a. Map Panel (initialized on load)
+- Fetches customer coordinates from Firestore via `/map/locations`  
+- Renders markers using **Google Maps JavaScript API**  
+  - 🔴 Red = Customers  
+  - 🔵 Blue = Warehouse  
+  - Hover displays location name with an `InfoWindow`
 
-**10. Sends low-stock alert email via SendGrid**
-   - Includes product name and suggested reorder
+##### 9b. Chart Panel (initialized on load)
+- Aggregates total spend per customer from **BigQuery**  
+- Fetches customer names from **Firestore**  
+- Renders **Top 5 customers** in a bar chart using **Chart.js**
 
----
-### B. SmartStock Dashboard & Analytics (Live Metrics & Mapping)
-
-![Architecture diagram of SmartStock dashboard system](images/dashboardArchitecture.png)
-
-#### How It Works 
-
-When the dashboard loads, the App Engine frontend (`dashboard.html`) initializes three parallel processes:
-
-**1a. Map panel initialized when dashboard loads**
-- a1. Fetches customer coordinates from Firestore via `/map/locations`
-- a2. Renders markers using Google Maps JavaScript API  
-  - Red = Customers  
-  - Blue = Warehouse  
-  - Hover displays location name with InfoWindow
-
-**1b. Chart panel initialized when dashboard loads**
-- b1. Aggregates total spend per customer from BigQuery
-- b2. Fetches customer names from Firestore
-- b3. Renders Top 5 customers in a bar chart using Chart.js
-
-**1c. Metrics panel initialized when dashboard loads**
-- c1. Loads real-time metrics via API endpoints:
-  - `/customers/active-count`
-  - `/customers/order-count`
-  - `/customers/average-orders`
-  - `/customers/average-order-value`
+##### 9c. Metrics Panel (initialized on load)
+- Loads real-time metrics via API endpoints:  
+  - `/customers/active-count`  
+  - `/customers/order-count`  
+  - `/customers/average-orders`  
+  - `/customers/average-order-value`  
   - `/customers/total-order-value`
+
+### Customer Subprocesses (A–C)
+
+#### A. Add Customer
+If the customer does not exist, staff add the record through the App Engine form (name, address, contact).
+
+#### B. Coordinates Processing
+The address is sent to the Google Maps Geocoding API to obtain latitude/longitude for mapping and analytics.
+
+#### C. customer Collection
+The complete customer record (details + coordinates) is stored in `customers` collection (Firestore) for future orders and dashboard visualization.
+
+-----
+## Database Setup
+SmartStock uses both **BigQuery** and **Firestore** to manage operational and analytical data.  
+The data model supports event-driven updates, real-time analytics, and dashboard visualization.
+
+> **Note:** Before deployment, ensure BigQuery is initialized properly. Firestore will be created and populated automatically when the first customer/order events occur.
+
+### BigQuery
+SmartStock uses a BigQuery dataset (`finalproject`) for structured analytical data. BigQuery tables must be created **before deployment** so Cloud Functions can read and update them.  
+
+For this project, the tables were created manually in the Google Cloud Console under the **`finalproject`** dataset, which includes:  
+- `inventory_baseline`  
+- `order_history`
+
+The `inventory_baseline` table was loaded during creation using the initial CSV file (stored in the `data` folder), allowing BigQuery to automatically detect and apply the correct schema.
+
+> **Note:** This setup can also be automated through a deployment or initialization script if needed in future versions.
+
+### Firestore
+SmartStock uses a Firestore database (`smartstock-db`) for real-time event-driven data. The Firestore database **`smartstock-db`**  collections don't have to be created before deployment. 
+
+Collections are created automatically when data is first written to Firestore:  
+- `customers` — created when a new customer is added through the App Engine UI or initial data import script.  
+- `restock_log` — created when the `restockHandler` Cloud Function logs the first low-stock alert.  
+
+For this project, the initial customer data was loaded using the `data/importFirestore.js` script.  
+
+## Database Schema
+
+The following tables and collections define the SmartStock data model, supporting event-driven updates, real-time analytics, and dashboard visualization.
+
+### **BigQuery Dataset: `finalproject`**
+
+#### `inventory_baseline`
+Stores all product and stock information.
+
+| Field Name | Data Type | Mode | Description |
+|-------------|------------|------|--------------|
+| `product_id` | STRING | REQUIRED | Unique product identifier (used for joins with orders). |
+| `product_name` | STRING | REQUIRED | Display name for product. |
+| `category` | STRING | NULLABLE | Product category (used in analytics). |
+| `stock_quantity` | INTEGER | REQUIRED | Current stock available. |
+| `reorder_level` | INTEGER | NULLABLE | Minimum quantity before restock. |
+| `reorder_quantity` | INTEGER | NULLABLE | Default restock quantity. |
+| `unit_price` | FLOAT | REQUIRED | Price per unit. |
+| `date_received` | DATE | NULLABLE | Date added to inventory. |
+| `last_order_date` | DATE | NULLABLE | Last time stock changed. |
+| `sales_volume` | INTEGER | NULLABLE | Total units sold. |
+| `status` | STRING | REQUIRED | Product status (`Active`, `Discontinued`, `Backordered`). |
+
+#### `order_history`
+Stores customer orders processed through App Engine and Cloud Functions.
+
+| Field Name | Data Type | Mode | Default Value | Description |
+|-------------|------------|------|----------------|--------------|
+| `order_id` | STRING | REQUIRED | Auto-generated (UUID) | Unique order ID. |
+| `customer_id` | STRING | REQUIRED | — | Firestore reference to customer. |
+| `product_id` | STRING | REQUIRED | — | BigQuery reference to product. |
+| `product_name` | STRING | NULLABLE | Derived on backend | Product name. |
+| `quantity_ordered` | INTEGER | REQUIRED | — | Quantity ordered. |
+| `unit_price` | FLOAT | NULLABLE | Derived on backend | Unit price. |
+| `total_price` | FLOAT | NULLABLE | Calculated on backend | Total = quantity * price. |
+| `timestamp` | DATE | REQUIRED | Current timestamp | Order creation date. |
+| `order_status` | STRING | REQUIRED | Pending | Order lifecycle status. |
+
 ---
+
+### **Firestore Database: `smartstock-db`**
+
+#### Collection: `customers` 
+| Field Name | Data Type | Required | Description |
+|-------------|------------|-----------|--------------|
+| `customer_id` | STRING | Yes | Unique customer identifier. |
+| `name` | STRING | Yes | Full name. |
+| `email` | STRING | Optional | Email address. |
+| `phone` | STRING | Optional | Contact number. |
+| `address` | STRING | Yes | Street/city address. |
+| `location` | GeoPoint | Yes | Latitude and longitude for map visualization. |
+| `registered_date` | TIMESTAMP | Yes | Date added to the system. |
+| `status` | STRING | Optional | `Active` or `Inactive`. |
+
+#### Collection: `restock_log` 
+| Field Name | Data Type | Required | Description |
+|-------------|------------|-----------|--------------|
+| `product_id` | STRING | Yes | Product ID from inventory. |
+| `product_name` | STRING | Yes | Product name. |
+| `stock_quantity` | INTEGER | Yes | Quantity when alert triggered. |
+| `reorder_level` | INTEGER | Yes | Threshold that triggered the alert. |
+| `reorder_quantity` | INTEGER | Yes | Recommended reorder amount. |
+| `timestamp` | TIMESTAMP | Yes | Time alert was created. |
+| `status` | STRING | Yes | Alert status (`unread`, `acknowledged`, `resolved`). |
+
+---
+
+## App Engine Configuration
+
+Before deployment, review the **`app.yaml`** file in the `appengine/` directory and update all required environment variables with your project-specific values.
+
+> **Note:** The `HQ_LAT` and `HQ_LNG` values correspond to the warehouse location used for the map marker on the dashboard.
+
+-----
 
 ## Dependencies
 
