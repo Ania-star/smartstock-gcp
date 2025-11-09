@@ -309,8 +309,12 @@ Before deployment, review the **`app.yaml`** file in the `appengine/` directory 
 SENDGRID_API_KEY=your_key
 GOOGLE_APPLICATION_CREDENTIALS=./keys/your-key.json
 GOOGLE_MAPS_API_KEY=your_google_maps_key
-HQ_LAT=xx.xxxx
-HQ_LNG=xx.xxxx
+GOOGLE_CLOUD_PROJECT=your_google_cloud_project
+HQ_LAT=your_warehouse_latitude
+HQ_LNG=your_warehouse_longitude
+ALERT_EMAIL_TO=recipient_email_for_alerts
+ALERT_EMAIL_FROM=verified_sendgrid_sender_email
+
 ```
 
 ### Deploy App Engine
