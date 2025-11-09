@@ -1,8 +1,8 @@
 # SmartStock
 
-**SmartStock** is a serverless, event-driven inventory management system designed to help small businesses monitor stock levels, process customer orders, and receive real-time low-stock alerts. It includes a simple internal UI, real-time analytics, and automated restock triggers — all built using BigQuery, Firestore, App Engine, Pub/Sub, and Cloud Functions.
+**SmartStock** is a serverless, event-driven business operations platform that helps small businesses manage customers, process orders, track inventory, and receive real-time restock alerts. It includes a simple internal UI, real-time analytics, and automated restock triggers — all built using BigQuery, Firestore, App Engine, Pub/Sub, and Cloud Functions.
 
-The MVP supports order processing, inventory updates, restock alerts, and a live dashboard for sales and customer insights. It lays the foundation for future enhancements such as automated restocking and customer-facing ordering. It also supports adding new customers during order placement, including automatic address geocoding via the Google Maps API.
+The MVP supports order processing, live inventory updates, restock alerts, and a dashboard for sales and customer insights. It also supports adding new customers during order placement with automatic address geocoding through the Google Maps API. The system lays the groundwork for future enhancements such as automated restocking and customer-facing ordering.
 
 ---
 ![GCP](https://img.shields.io/badge/Cloud-Google%20Cloud-blue)
