@@ -6,13 +6,15 @@ const { BigQuery } = require('@google-cloud/bigquery');
 const bigquery = new BigQuery({ projectId: process.env.GOOGLE_CLOUD_PROJECT });
 
 async function getReorderDetails(product_id) {
+  const projectId = process.env.GOOGLE_CLOUD_PROJECT;
+  
   const query = `
     SELECT
       product_name,
       stock_quantity,
       reorder_level,
       reorder_quantity
-    FROM \`sp25-50100-teamgold.finalproject.inventory_baseline\`
+    FROM \`${projectId}.finalproject.inventory_baseline\`
     WHERE product_id = @product_id
     LIMIT 1
   `;
